@@ -1,0 +1,5 @@
+#!/bin/sh
+SPANN_LIB=`Rscript -e "cat(system.file('lib', package = 'RSPANN'))"`
+SPANN_INC=`Rscript -e "cat(system.file('include', package = 'RSPANN'))"`
+sed -e "s|@SPANN_LIB@|${SPANN_LIB}|" src/Makevars.in > src/Makevars.temp
+sed -e "s|@SPANN_INC@|${SPANN_INC}|" src/Makevars.temp > src/Makevars

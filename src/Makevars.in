@@ -1,0 +1,12 @@
+PKG_CPPFLAGS = -std=c++17 -Wno-sign-compare -fopenmp -L@SPANN_LIB@ -lSPANN
+
+$(SHLIB): hello.o MatrixOperations.o
+
+hello.o:
+	nvcc -arch=sm_61 -I. -rdc=true -c hello.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
+
+MatrixOperations.o:
+	nvcc -arch=sm_61 -I. -rdc=true -c MatrixOperations.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
+	nvcc -arch=sm_61 -dlink -Xcompiler -fPIC -o cuda_link.o MatrixOperations.o hello.o
+
+PKG_LIBS = hello.o MatrixOperations.o cuda_link.o -L@SPANN_LIB@ -L/opt/cuda/lib64 -lcuda -lcudart -lSPANN

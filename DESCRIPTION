@@ -1,0 +1,11 @@
+Package: RSPANNGPU
+Type: Package
+Title: SP Artificial Neural Networks GPU package.
+Version: 0.1
+Date: 2018-11-26
+Author: Cristian Sandoval-Pineda
+Maintainer: Cristian Sandoval-Pineda <sandovalp.ce@gmail.com>
+Description: Training Artificial Neural Networks with backpropagation programmed using Rcpp, OpenMP and CUDA.
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.12.13)
+LinkingTo: Rcpp, RSPANN
