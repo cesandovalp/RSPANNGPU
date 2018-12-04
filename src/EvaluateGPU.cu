@@ -16,13 +16,12 @@ void PrintMatrix( MatrixDevice& M )
   }
 }
 
-void hello( int N )
-//int main( void )
+void EvaluateGPU( Rcpp::NumericMatrix in_data, Rcpp::NumericMatrix out_data )
 {
-  FFNNHandler ffnn_handler( N );
+  // N, input, output, hidden, layers )
+  FFNNHandler ffnn_handler( in_data.nrow(), in_data.ncol(), out_data.ncol(), 150, 3 );
 
-  //int N = 1 << 20;
-  //int N = 2560;
+  ffnn_handler.SetupDataset( in_data, out_data );
 
   ffnn_handler.Run();
 
@@ -31,8 +30,7 @@ void hello( int N )
 
   ffnn_handler.DeviceToHost();
 
-  /*PrintMatrix( ffnn_handler.host_W[0] );
-  PrintMatrix( ffnn_handler.host_bias[0] );*/
-
-  cout << "CPU Hello World! " << N << endl;
+  cout << "Dataset rows: " << in_data.nrow()  << endl;
+  cout << "FFNN inputs: "  << in_data.ncol()  << endl;
+  cout << "FFNN outputs: " << out_data.ncol() << endl;
 } 

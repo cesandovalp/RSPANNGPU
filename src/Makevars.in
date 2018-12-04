@@ -1,12 +1,18 @@
 PKG_CPPFLAGS = -std=c++17 -Wno-sign-compare -fopenmp -L@SPANN_LIB@ -lSPANN
 
-$(SHLIB): hello.o MatrixOperations.o
+$(SHLIB): EvaluateGPU.o FFNNHandler.o FFNNData.o MatrixOperations.o
 
-hello.o:
-	nvcc -arch=sm_61 -I. -rdc=true -c hello.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
+EvaluateGPU.o:
+	nvcc -arch=sm_61 -I. -I@RCPP_INC@ -I/usr/include/R/ -rdc=true -c EvaluateGPU.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
+
+FFNNData.o:
+	nvcc -arch=sm_61 -I. -rdc=true -c FFNNData.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
+
+FFNNHandler.o:
+	nvcc -arch=sm_61 -I. -I@RCPP_INC@ -I/usr/include/R/ -rdc=true -c FFNNHandler.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
 
 MatrixOperations.o:
 	nvcc -arch=sm_61 -I. -rdc=true -c MatrixOperations.cu -Xcompiler -fPIC -Xcompiler -O3 -L@SPANN_LIB@ -I@SPANN_INC@ -lSPANN
-	nvcc -arch=sm_61 -dlink -Xcompiler -fPIC -o cuda_link.o MatrixOperations.o hello.o
+	nvcc -arch=sm_61 -dlink -Xcompiler -fPIC -o cuda_link.o FFNNData.o FFNNHandler.o MatrixOperations.o EvaluateGPU.o
 
-PKG_LIBS = hello.o MatrixOperations.o cuda_link.o -L@SPANN_LIB@ -L/opt/cuda/lib64 -lcuda -lcudart -lSPANN
+PKG_LIBS = EvaluateGPU.o MatrixOperations.o FFNNHandler.o FFNNData.o cuda_link.o -L@SPANN_LIB@ -L/opt/cuda/lib64 -lcuda -lcudart -lSPANN

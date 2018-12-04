@@ -5,19 +5,21 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _RSPANNGPU_rcpp_hello_world() {
+// EvaluateDataset
+List EvaluateDataset(Rcpp::NumericMatrix in_data, Rcpp::NumericMatrix out_data);
+RcppExport SEXP _RSPANNGPU_EvaluateDataset(SEXP in_dataSEXP, SEXP out_dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type in_data(in_dataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type out_data(out_dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(EvaluateDataset(in_data, out_data));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_RSPANNGPU_rcpp_hello_world", (DL_FUNC) &_RSPANNGPU_rcpp_hello_world, 0},
+    {"_RSPANNGPU_EvaluateDataset", (DL_FUNC) &_RSPANNGPU_EvaluateDataset, 2},
     {NULL, NULL, 0}
 };
 

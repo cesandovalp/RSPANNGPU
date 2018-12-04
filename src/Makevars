@@ -1,10 +1,10 @@
-$(SHLIB): hello.o MatrixOperations.o
+$(SHLIB): EvaluateGPU.o MatrixOperations.o
 
-hello.o:
-	nvcc -arch=sm_61 -I. -rdc=true -c hello.cu -Xcompiler -fPIC -Xcompiler -O3
+EvaluateGPU.o:
+	nvcc -arch=sm_61 -I. -rdc=true -c EvaluateGPU.cu -Xcompiler -fPIC -Xcompiler -O3
 
 MatrixOperations.o:
 	nvcc -arch=sm_61 -I. -rdc=true -c MatrixOperations.cu -Xcompiler -fPIC -Xcompiler -O3
-	nvcc -arch=sm_61 -dlink -Xcompiler -fPIC -o cuda_link.o MatrixOperations.o hello.o
+	nvcc -arch=sm_61 -dlink -Xcompiler -fPIC -o cuda_link.o MatrixOperations.o EvaluateGPU.o
 
-PKG_LIBS = hello.o MatrixOperations.o cuda_link.o -L/opt/cuda/lib64 -lcuda -lcudart
+PKG_LIBS = EvaluateGPU.o MatrixOperations.o cuda_link.o -L/opt/cuda/lib64 -lcuda -lcudart

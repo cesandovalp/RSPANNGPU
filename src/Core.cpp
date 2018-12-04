@@ -1,13 +1,12 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-void hello(int);
+void EvaluateGPU( Rcpp::NumericMatrix, Rcpp::NumericMatrix );
 
 // [[Rcpp::export]]
-List rcpp_hello_world()
+List EvaluateDataset( Rcpp::NumericMatrix in_data, Rcpp::NumericMatrix out_data )
 {
-    //hello( 2560 );
-    hello( 2560 );
+    EvaluateGPU( in_data, out_data );
 
     CharacterVector x = CharacterVector::create( "foo", "bar" )  ;
     NumericVector y   = NumericVector::create( 0.0, 1.0 ) ;
